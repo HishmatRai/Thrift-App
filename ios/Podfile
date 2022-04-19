@@ -23,6 +23,8 @@ target 'AwesomeTSProject' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
+
   target 'AwesomeTSProjectTests' do
     inherit! :complete
     # Pods for testing

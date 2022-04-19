@@ -16,9 +16,11 @@ import Header from './../../components/header';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Feather from 'react-native-vector-icons/dist/Feather';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import BarGraph from '../../components/barGraph';
 import ExpensesChart from '../../components/expensesChart';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import PieChart from 'react-native-pie-chart';
 
 const screens = Dimensions.get('window');
 let SmartFi = () => {
@@ -27,6 +29,10 @@ let SmartFi = () => {
   const [modalVisible, setModalVisible] = useState(false);
   let [chartType, setChartType] = useState('Bar');
   let FilterData = [{title: 'Wk'}, {title: 'Mn'}, {title: 'Yr'}];
+  const widthAndHeight = 150;
+  const series = [123, 321, 123];
+  const sliceColor = ['#ffc61d', '#8e1af9', '#68f166'];
+
   let Slider2Card = [
     {
       imagePath: require('./../../images/slider4.png'),
@@ -174,11 +180,49 @@ let SmartFi = () => {
           </TouchableOpacity>
         </View>
         {chartType === 'Pie' && (
-          <View style={styles._pie_setting}>
+          <View>
             {activeTab === 'investment' && (
-              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <Feather name="settings" size={20} color="#2f80ed" />
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(!modalVisible)}
+                  style={styles._pie_setting}>
+                  <Feather name="settings" size={20} color="#2f80ed" />
+                </TouchableOpacity>
+                <View style={styles._pie_chart}>
+                  <PieChart
+                    widthAndHeight={widthAndHeight}
+                    series={series}
+                    sliceColor={sliceColor}
+                    doughnut={true}
+                    coverRadius={0.75}
+                    coverFill={'#fff'}
+                  />
+                </View>
+                <Text style={styles._pie_worth_heading}>Net Worth</Text>
+                <View style={styles._pie_price_main}>
+                  <Text style={styles._total_earning_price}>$452</Text>
+                  <View style={styles._new_worth_percentage_main}>
+                    <AntDesign name="caretup" size={16} color="green" />
+                    <Text style={styles._new_worth_percentage}>10%</Text>
+                  </View>
+                </View>
+                <Text style={styles._pie_Des}>Compared to $250 last month</Text>
+                <View style={styles._wave_main}>
+                  <Text style={styles._wave_heading}>Saving</Text>
+                  <Text style={styles._wave_percentage}>30%</Text>
+                  <MaterialCommunityIcons name="wave" size={30} color="#8e1af9" />
+                </View>
+                <View style={styles._wave_main}>
+                  <Text style={styles._wave_heading}>Lending</Text>
+                  <Text style={styles._wave_percentage}>54%</Text>
+                  <MaterialCommunityIcons name="wave" size={30} color="#68f166" />
+                </View>
+                <View style={styles._wave_main}>
+                  <Text style={styles._wave_heading}>Delegation</Text>
+                  <Text style={styles._wave_percentage}>16%</Text>
+                  <MaterialCommunityIcons name="wave" size={30} color="#ffc61d" />
+                </View>
+              </>
             )}
           </View>
         )}
@@ -351,7 +395,6 @@ let SmartFi = () => {
               backgroundColor="#05050f">
               {fill => <Text style={styles._Show_progress}>32%</Text>}
             </AnimatedCircularProgress>
-            
 
             <View style={styles._income_data_main}>
               <Text style={styles._toal_earning}>Total Earning</Text>
@@ -893,10 +936,50 @@ let styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  _Show_progress:{
-    color:"#000",
-    fontWeight:"bold",
-    fontSize:20
-  }
+  _Show_progress: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  _pie_chart: {
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  _pie_worth_heading: {
+    color: 'gray',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  _pie_price_main: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  _pie_Des: {
+    color: 'gray',
+    fontSize: 14,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  _wave_main: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '60%',
+    alignSelf: 'center',
+    marginTop: 15,
+  },
+  _wave_heading: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  _wave_percentage: {
+    color: 'gray',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 export default SmartFi;
