@@ -10,15 +10,20 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  Modal
 } from 'react-native';
 import Header from './../../components/header';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Feather from 'react-native-vector-icons/dist/Feather';
+import Entypo from 'react-native-vector-icons/dist/Entypo';
 import BarGraph from '../../components/barGraph';
+import ExpensesChart from '../../components/expensesChart';
 const screens = Dimensions.get('window');
 let SmartFi = () => {
   let [activeTab, setActiveTab] = useState('investment');
   let [selectedFilter, setSelectedFilter] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  let [chartType, setChartType] = useState("Bar")
   let FilterData = [{ title: 'Wk' }, { title: 'Mn' }, { title: 'Yr' }];
   let Slider2Card = [
     {
@@ -166,52 +171,81 @@ let SmartFi = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {activeTab === 'investment' && (
-          <View style={styles._new_worth_main}>
-            <Text style={styles._new_worth_heading}>Net Worth:</Text>
-            <Text style={styles._new_worth_price}>$452</Text>
-            <View style={styles._new_worth_percentage_main}>
-              <AntDesign name="caretup" size={16} color="green" />
-              <Text style={styles._new_worth_percentage}>15%</Text>
-            </View>
-          </View>
-        )}
-        {activeTab === 'investment' && (
-          <View style={styles._filter_main}>
-            <View>
-              <Text style={styles._filter_heading}>This Week</Text>
-              <Text style={styles._filter_percentage}>2.5%</Text>
-            </View>
-            <View style={styles._filter_show_main}>
-              {FilterData.map((v, i) => {
-                return (
-                  <TouchableOpacity
-                    key={i}
-                    onPress={() => setSelectedFilter(i)}
-                    style={
-                      selectedFilter === i
-                        ? styles._selected_filter
-                        : styles._filter
-                    }>
-                    <Text
-                      style={
-                        selectedFilter === i
-                          ? styles._selected_filter_title
-                          : styles._filter_title
-                      }>
-                      {v.title}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-              <TouchableOpacity>
+        {chartType === 'Pie' &&
+          <View style={styles._pie_setting}>
+            {activeTab === 'investment' &&
+              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                 <Feather name="settings" size={20} color="#2f80ed" />
               </TouchableOpacity>
-            </View>
+            }
+          </View>
+        }
+        {chartType === 'Bar' && (
+          <View style={styles._new_worth_main}>
+            {activeTab === 'investment' &&
+              <>
+                <Text style={styles._new_worth_heading}>Net Worth:</Text>
+                <Text style={styles._new_worth_price}>$452</Text>
+                <View style={styles._new_worth_percentage_main}>
+                  <AntDesign name="caretup" size={16} color="green" />
+                  <Text style={styles._new_worth_percentage}>15%</Text>
+                </View>
+              </>
+            }
           </View>
         )}
+        {chartType === 'Bar' && (
+          <View style={styles._filter_main}>
+            {activeTab === 'investment' &&
+              <>
+                <View>
+                  <Text style={styles._filter_heading}>This Week</Text>
+                  <Text style={styles._filter_percentage}>2.5%</Text>
+                </View>
+                <View style={styles._filter_show_main}>
+                  {FilterData.map((v, i) => {
+                    return (
+                      <TouchableOpacity
+                        key={i}
+                        onPress={() => setSelectedFilter(i)}
+                        style={
+                          selectedFilter === i
+                            ? styles._selected_filter
+                            : styles._filter
+                        }>
+                        <Text
+                          style={
+                            selectedFilter === i
+                              ? styles._selected_filter_title
+                              : styles._filter_title
+                          }>
+                          {v.title}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    <Feather name="settings" size={20} color="#2f80ed" />
+                  </TouchableOpacity>
+                </View>
+              </>
+            }
+          </View>
+        )}
+
         {activeTab === 'expenses' &&
           <View style={styles._expenses_data_main}>
+            <View style={styles._summery_show_mian}>
+              <View>
+                <Text style={styles._summery_heading}>
+                  Expenses Summary
+                </Text>
+                <Text style={styles._summery_date}>01 Mar 2021 - 16 mar 2021</Text>
+                <View>
+                  <ExpensesChart />
+                </View>
+              </View>
+            </View>
             <View style={styles._payment_btn_main}>
               {PaymentButton.map((paymentValue, paymenetIndex) => {
                 return (
@@ -257,9 +291,16 @@ let SmartFi = () => {
 
           </View>
         }
+        {chartType === 'Bar' &&
+          <>
+            {activeTab === 'investment' &&
+              <BarGraph />
+            }
+          </>
+        }
         {activeTab === 'investment' && (
           <>
-            <BarGraph />
+
             <Text style={styles._heading}>Start Target Goals</Text>
             <ImageBackground
               source={require('./../../images/goals.png')}
@@ -281,6 +322,15 @@ let SmartFi = () => {
             </ImageBackground>
           </>
         )}
+        {activeTab === 'income' &&
+          <View>
+            <View style={styles._income_data_main}>
+              <Text>Total Earning</Text>
+              <Text>$12,875</Text>
+              <Text>10%</Text>
+            </View>
+          </View>
+        }
         {activeTab !== 'expenses' && (
           <>
             <Text style={styles._heading}>My Goal Reminders</Text>
@@ -326,6 +376,47 @@ let SmartFi = () => {
         )}
         <View style={{ paddingBottom: 20 }} />
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles._model_heading}>Select Chart Style</Text>
+            <TouchableOpacity onPress={() => setChartType("Bar")} style={styles._select_chart_btn}>
+              <View style={styles._radio_btn}>
+                {chartType === "Bar" &&
+                  <View style={styles._selected_radio_btn} />
+                }
+              </View>
+              <Text style={styles._chart_title}>Bar Chart</Text>
+              <Entypo name="bar-graph" size={20} color="#000" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setChartType("Pie")} style={styles._select_chart_btn}>
+              <View style={styles._radio_btn}>
+                {chartType === "Pie" &&
+                  <View style={styles._selected_radio_btn} />
+                }
+              </View>
+              <Text style={styles._chart_title}>Pie Chart</Text>
+              <Entypo name="pie-chart" size={20} color="#000" />
+            </TouchableOpacity>
+            <View style={styles._model_btn_mian}>
+              <TouchableOpacity style={styles._model_cancel_btn} onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles._model_cancel_btn_text}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles._model_confirm_btn} onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles._model_confirm_btn_text}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -645,6 +736,104 @@ let styles = StyleSheet.create({
     borderRadius: 100,
     marginRight: 10,
     marginTop: 10
+  },
+  _summery_show_mian: {
+  },
+  _summery_heading: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  _summery_date: {
+    color: "gray",
+    fontSize: 10,
+    marginBottom: 20
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    width: "70%",
+    elevation: 3,
+    paddingVertical: 10
+
+  },
+  _model_heading: {
+    color: "#000",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 16,
+    marginBottom: 10
+  },
+  _chart_title: {
+    color: "#000",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginRight: 10,
+  },
+  _select_chart_btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 7,
+  },
+  _radio_btn: {
+    borderWidth: 1,
+    borderColor: "#3e83f2",
+    width: 25,
+    height: 25,
+    borderRadius: 25 / 2,
+    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  _selected_radio_btn: {
+    backgroundColor: "#3e83f2",
+    width: 15,
+    height: 15,
+    borderRadius: 15 / 2
+  },
+  _model_btn_mian: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10
+  },
+  _model_cancel_btn: {
+    backgroundColor: "#eef2f8",
+    borderRadius: 100,
+    width: "45%",
+    paddingVertical: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  _model_cancel_btn_text: {
+    color: "#000",
+    fontSize: 14
+  },
+  _model_confirm_btn: {
+    backgroundColor: "#005cee",
+    borderRadius: 100,
+    width: "45%",
+    paddingVertical: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  _model_confirm_btn_text: {
+    color: "#fff",
+    fontSize: 14
+  },
+  _pie_setting: {
+    marginTop: 30,
+    alignSelf: "flex-end"
+  },
+  _income_data_main: {
+    marginTop: 30,
+    backgroundColor: "red"
   }
 });
 export default SmartFi;
