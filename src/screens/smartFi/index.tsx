@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -14,11 +14,12 @@ import {
 import Header from './../../components/header';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
 import Feather from 'react-native-vector-icons/dist/Feather';
+import BarGraph from '../../components/barGraph';
 const screens = Dimensions.get('window');
 let SmartFi = () => {
   let [activeTab, setActiveTab] = useState('investment');
   let [selectedFilter, setSelectedFilter] = useState(0);
-  let FilterData = [{title: 'Wk'}, {title: 'Mn'}, {title: 'Yr'}];
+  let FilterData = [{ title: 'Wk' }, { title: 'Mn' }, { title: 'Yr' }];
   let Slider2Card = [
     {
       imagePath: require('./../../images/slider4.png'),
@@ -36,6 +37,44 @@ let SmartFi = () => {
       per: '50%',
     },
   ];
+  let ExpensesCard = [
+    {
+      iconType: "up",
+      name: "N",
+      heading: "Now Payments",
+      date: "28 Apr 2020",
+      price: "-200 Ada"
+    },
+    {
+      iconType: "down",
+      name: "C",
+      heading: "Cardono Wallet",
+      date: "10 Mar 2020",
+      price: "+50 Ada"
+    }
+  ]
+  let PaymentButton = [
+    {
+      title: "Rent Payment",
+      bgColor: "#f86f34"
+    },
+    {
+      title: "Entertainment",
+      bgColor: "#005cee"
+    },
+    {
+      title: "Untility",
+      bgColor: "#ffb731"
+    },
+    {
+      title: "Tuition",
+      bgColor: "#f563bb"
+    },
+    {
+      title: "Groceries",
+      bgColor: "#1ed37c"
+    },
+  ]
   return (
     <SafeAreaView style={styles._container}>
       <StatusBar
@@ -171,8 +210,56 @@ let SmartFi = () => {
             </View>
           </View>
         )}
+        {activeTab === 'expenses' &&
+          <View style={styles._expenses_data_main}>
+            <View style={styles._payment_btn_main}>
+              {PaymentButton.map((paymentValue, paymenetIndex) => {
+                return (
+                  <TouchableOpacity key={paymenetIndex} style={[styles._payment_btn, { backgroundColor: paymentValue.bgColor }]}>
+                    <Text>{paymentValue.title}</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            </View>
+            <View style={styles._in_out_main}>
+              <Text style={styles._in_out}>In & Out</Text>
+              <View style={styles._expenses_data_icons_main}>
+                <TouchableOpacity>
+                  <Feather name="arrow-down-circle" size={20} color="#4fac7a" />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ marginLeft: 10 }}>
+                  <Feather name="arrow-up-circle" size={20} color="#db3a3a" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {ExpensesCard.map((expensesValue, expensesIndex) => {
+              return (
+                <View style={styles._expenses_card_main} key={expensesIndex}>
+                  <View style={styles._expenses_card_icon_main}>
+                    {expensesValue.iconType === "up" &&
+                      <AntDesign name="arrowup" size={20} color="#db3a3a" />
+                    }
+                    {expensesValue.iconType === "down" &&
+                      <AntDesign name="arrowdown" size={20} color="#4aa977" />
+                    }
+                    <View style={styles._expenses_card_name_main}>
+                      <Text style={styles._expenses_card_name}>{expensesValue.name}</Text>
+                    </View>
+                    <View>
+                      <Text style={styles._expenses_card_heading}>{expensesValue.heading}</Text>
+                      <Text style={styles._expenses_card_date}>{expensesValue.date}</Text>
+                    </View>
+                  </View>
+                  <Text style={[styles.__price, { color: expensesValue.iconType === "up" ? "#db3a3a" : "#4aa977" }]}>{expensesValue.price}</Text>
+                </View>
+              )
+            })}
+
+          </View>
+        }
         {activeTab === 'investment' && (
           <>
+            <BarGraph />
             <Text style={styles._heading}>Start Target Goals</Text>
             <ImageBackground
               source={require('./../../images/goals.png')}
@@ -215,7 +302,7 @@ let SmartFi = () => {
                             <View
                               style={[
                                 styles._percentage_done,
-                                {width: sliderValue.per},
+                                { width: sliderValue.per },
                               ]}>
                               <Text style={styles._percentage_done_show}>
                                 {sliderValue.per}
@@ -237,6 +324,7 @@ let SmartFi = () => {
             </ScrollView>
           </>
         )}
+        <View style={{ paddingBottom: 20 }} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -432,6 +520,7 @@ let styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
+    height: 15,
   },
   _percentage_done_show: {
     color: '#fff',
@@ -458,6 +547,7 @@ let styles = StyleSheet.create({
   },
   _goals_image: {
     height: 174,
+    marginTop: 20
   },
   _goals_data_main: {
     padding: 10,
@@ -477,6 +567,7 @@ let styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 35
   },
   _goals_btn: {
     backgroundColor: '#fff',
@@ -491,5 +582,69 @@ let styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
   },
+  _in_out: {
+    color: "#000",
+    fontSize: 16
+  },
+  _expenses_data_main: {
+    marginTop: 30
+  },
+  _expenses_data_icons_main: {
+    flexDirection: "row"
+  },
+  _in_out_main: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  _expenses_card_main: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10
+  },
+  _expenses_card_icon_main: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  _expenses_card_name_main: {
+    backgroundColor: "#eef2f8",
+    width: 40,
+    height: 40,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10
+  },
+  _expenses_card_name: {
+    color: "#005cee",
+    fontWeight: "bold",
+    fontSize: 16
+  },
+  _expenses_card_heading: {
+    color: "#000",
+    fontSize: 14,
+    fontWeight: "bold"
+  },
+  _expenses_card_date: {
+    color: "gray",
+    fontSize: 13
+  },
+  __price: {
+    fontSize: 16
+  },
+  _payment_btn_main: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 30
+  },
+  _payment_btn: {
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    marginRight: 10,
+    marginTop: 10
+  }
 });
 export default SmartFi;
