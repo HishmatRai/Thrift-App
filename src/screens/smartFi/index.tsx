@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Image,
   Dimensions,
   ImageBackground,
-  Modal
+  Modal,
 } from 'react-native';
 import Header from './../../components/header';
 import AntDesign from 'react-native-vector-icons/dist/AntDesign';
@@ -18,13 +18,15 @@ import Feather from 'react-native-vector-icons/dist/Feather';
 import Entypo from 'react-native-vector-icons/dist/Entypo';
 import BarGraph from '../../components/barGraph';
 import ExpensesChart from '../../components/expensesChart';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+
 const screens = Dimensions.get('window');
 let SmartFi = () => {
   let [activeTab, setActiveTab] = useState('investment');
   let [selectedFilter, setSelectedFilter] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  let [chartType, setChartType] = useState("Bar")
-  let FilterData = [{ title: 'Wk' }, { title: 'Mn' }, { title: 'Yr' }];
+  let [chartType, setChartType] = useState('Bar');
+  let FilterData = [{title: 'Wk'}, {title: 'Mn'}, {title: 'Yr'}];
   let Slider2Card = [
     {
       imagePath: require('./../../images/slider4.png'),
@@ -44,42 +46,42 @@ let SmartFi = () => {
   ];
   let ExpensesCard = [
     {
-      iconType: "up",
-      name: "N",
-      heading: "Now Payments",
-      date: "28 Apr 2020",
-      price: "-200 Ada"
+      iconType: 'up',
+      name: 'N',
+      heading: 'Now Payments',
+      date: '28 Apr 2020',
+      price: '-200 Ada',
     },
     {
-      iconType: "down",
-      name: "C",
-      heading: "Cardono Wallet",
-      date: "10 Mar 2020",
-      price: "+50 Ada"
-    }
-  ]
+      iconType: 'down',
+      name: 'C',
+      heading: 'Cardono Wallet',
+      date: '10 Mar 2020',
+      price: '+50 Ada',
+    },
+  ];
   let PaymentButton = [
     {
-      title: "Rent Payment",
-      bgColor: "#f86f34"
+      title: 'Rent Payment',
+      bgColor: '#f86f34',
     },
     {
-      title: "Entertainment",
-      bgColor: "#005cee"
+      title: 'Entertainment',
+      bgColor: '#005cee',
     },
     {
-      title: "Untility",
-      bgColor: "#ffb731"
+      title: 'Untility',
+      bgColor: '#ffb731',
     },
     {
-      title: "Tuition",
-      bgColor: "#f563bb"
+      title: 'Tuition',
+      bgColor: '#f563bb',
     },
     {
-      title: "Groceries",
-      bgColor: "#1ed37c"
+      title: 'Groceries',
+      bgColor: '#1ed37c',
     },
-  ]
+  ];
   return (
     <SafeAreaView style={styles._container}>
       <StatusBar
@@ -171,18 +173,18 @@ let SmartFi = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {chartType === 'Pie' &&
+        {chartType === 'Pie' && (
           <View style={styles._pie_setting}>
-            {activeTab === 'investment' &&
+            {activeTab === 'investment' && (
               <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                 <Feather name="settings" size={20} color="#2f80ed" />
               </TouchableOpacity>
-            }
+            )}
           </View>
-        }
+        )}
         {chartType === 'Bar' && (
           <View style={styles._new_worth_main}>
-            {activeTab === 'investment' &&
+            {activeTab === 'investment' && (
               <>
                 <Text style={styles._new_worth_heading}>Net Worth:</Text>
                 <Text style={styles._new_worth_price}>$452</Text>
@@ -191,12 +193,12 @@ let SmartFi = () => {
                   <Text style={styles._new_worth_percentage}>15%</Text>
                 </View>
               </>
-            }
+            )}
           </View>
         )}
         {chartType === 'Bar' && (
           <View style={styles._filter_main}>
-            {activeTab === 'investment' &&
+            {activeTab === 'investment' && (
               <>
                 <View>
                   <Text style={styles._filter_heading}>This Week</Text>
@@ -224,23 +226,24 @@ let SmartFi = () => {
                       </TouchableOpacity>
                     );
                   })}
-                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}>
                     <Feather name="settings" size={20} color="#2f80ed" />
                   </TouchableOpacity>
                 </View>
               </>
-            }
+            )}
           </View>
         )}
 
-        {activeTab === 'expenses' &&
+        {activeTab === 'expenses' && (
           <View style={styles._expenses_data_main}>
             <View style={styles._summery_show_mian}>
               <View>
-                <Text style={styles._summery_heading}>
-                  Expenses Summary
+                <Text style={styles._summery_heading}>Expenses Summary</Text>
+                <Text style={styles._summery_date}>
+                  01 Mar 2021 - 16 mar 2021
                 </Text>
-                <Text style={styles._summery_date}>01 Mar 2021 - 16 mar 2021</Text>
                 <View>
                   <ExpensesChart />
                 </View>
@@ -249,10 +252,15 @@ let SmartFi = () => {
             <View style={styles._payment_btn_main}>
               {PaymentButton.map((paymentValue, paymenetIndex) => {
                 return (
-                  <TouchableOpacity key={paymenetIndex} style={[styles._payment_btn, { backgroundColor: paymentValue.bgColor }]}>
+                  <TouchableOpacity
+                    key={paymenetIndex}
+                    style={[
+                      styles._payment_btn,
+                      {backgroundColor: paymentValue.bgColor},
+                    ]}>
                     <Text>{paymentValue.title}</Text>
                   </TouchableOpacity>
-                )
+                );
               })}
             </View>
             <View style={styles._in_out_main}>
@@ -261,7 +269,7 @@ let SmartFi = () => {
                 <TouchableOpacity>
                   <Feather name="arrow-down-circle" size={20} color="#4fac7a" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginLeft: 10 }}>
+                <TouchableOpacity style={{marginLeft: 10}}>
                   <Feather name="arrow-up-circle" size={20} color="#db3a3a" />
                 </TouchableOpacity>
               </View>
@@ -270,37 +278,48 @@ let SmartFi = () => {
               return (
                 <View style={styles._expenses_card_main} key={expensesIndex}>
                   <View style={styles._expenses_card_icon_main}>
-                    {expensesValue.iconType === "up" &&
+                    {expensesValue.iconType === 'up' && (
                       <AntDesign name="arrowup" size={20} color="#db3a3a" />
-                    }
-                    {expensesValue.iconType === "down" &&
+                    )}
+                    {expensesValue.iconType === 'down' && (
                       <AntDesign name="arrowdown" size={20} color="#4aa977" />
-                    }
+                    )}
                     <View style={styles._expenses_card_name_main}>
-                      <Text style={styles._expenses_card_name}>{expensesValue.name}</Text>
+                      <Text style={styles._expenses_card_name}>
+                        {expensesValue.name}
+                      </Text>
                     </View>
                     <View>
-                      <Text style={styles._expenses_card_heading}>{expensesValue.heading}</Text>
-                      <Text style={styles._expenses_card_date}>{expensesValue.date}</Text>
+                      <Text style={styles._expenses_card_heading}>
+                        {expensesValue.heading}
+                      </Text>
+                      <Text style={styles._expenses_card_date}>
+                        {expensesValue.date}
+                      </Text>
                     </View>
                   </View>
-                  <Text style={[styles.__price, { color: expensesValue.iconType === "up" ? "#db3a3a" : "#4aa977" }]}>{expensesValue.price}</Text>
+                  <Text
+                    style={[
+                      styles.__price,
+                      {
+                        color:
+                          expensesValue.iconType === 'up'
+                            ? '#db3a3a'
+                            : '#4aa977',
+                      },
+                    ]}>
+                    {expensesValue.price}
+                  </Text>
                 </View>
-              )
+              );
             })}
-
           </View>
-        }
-        {chartType === 'Bar' &&
-          <>
-            {activeTab === 'investment' &&
-              <BarGraph />
-            }
-          </>
-        }
+        )}
+        {chartType === 'Bar' && (
+          <>{activeTab === 'investment' && <BarGraph />}</>
+        )}
         {activeTab === 'investment' && (
           <>
-
             <Text style={styles._heading}>Start Target Goals</Text>
             <ImageBackground
               source={require('./../../images/goals.png')}
@@ -322,15 +341,30 @@ let SmartFi = () => {
             </ImageBackground>
           </>
         )}
-        {activeTab === 'income' &&
-          <View>
+        {activeTab === 'income' && (
+          <View style={styles._income_main}>
+            <AnimatedCircularProgress
+              size={100}
+              width={10}
+              fill={90}
+              tintColor="#652ef5"
+              backgroundColor="#05050f">
+              {fill => <Text style={styles._Show_progress}>32%</Text>}
+            </AnimatedCircularProgress>
+            
+
             <View style={styles._income_data_main}>
-              <Text>Total Earning</Text>
-              <Text>$12,875</Text>
-              <Text>10%</Text>
+              <Text style={styles._toal_earning}>Total Earning</Text>
+              <View style={styles._total_earning_price_main}>
+                <Text style={styles._total_earning_price}>$452</Text>
+                <View style={styles._new_worth_percentage_main}>
+                  <AntDesign name="caretup" size={16} color="green" />
+                  <Text style={styles._new_worth_percentage}>10%</Text>
+                </View>
+              </View>
             </View>
           </View>
-        }
+        )}
         {activeTab !== 'expenses' && (
           <>
             <Text style={styles._heading}>My Goal Reminders</Text>
@@ -352,7 +386,7 @@ let SmartFi = () => {
                             <View
                               style={[
                                 styles._percentage_done,
-                                { width: sliderValue.per },
+                                {width: sliderValue.per},
                               ]}>
                               <Text style={styles._percentage_done_show}>
                                 {sliderValue.per}
@@ -374,43 +408,50 @@ let SmartFi = () => {
             </ScrollView>
           </>
         )}
-        <View style={{ paddingBottom: 20 }} />
+        <View style={{paddingBottom: 20}} />
       </ScrollView>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
-        }}
-      >
+        }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles._model_heading}>Select Chart Style</Text>
-            <TouchableOpacity onPress={() => setChartType("Bar")} style={styles._select_chart_btn}>
+            <TouchableOpacity
+              onPress={() => setChartType('Bar')}
+              style={styles._select_chart_btn}>
               <View style={styles._radio_btn}>
-                {chartType === "Bar" &&
+                {chartType === 'Bar' && (
                   <View style={styles._selected_radio_btn} />
-                }
+                )}
               </View>
               <Text style={styles._chart_title}>Bar Chart</Text>
               <Entypo name="bar-graph" size={20} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setChartType("Pie")} style={styles._select_chart_btn}>
+            <TouchableOpacity
+              onPress={() => setChartType('Pie')}
+              style={styles._select_chart_btn}>
               <View style={styles._radio_btn}>
-                {chartType === "Pie" &&
+                {chartType === 'Pie' && (
                   <View style={styles._selected_radio_btn} />
-                }
+                )}
               </View>
               <Text style={styles._chart_title}>Pie Chart</Text>
               <Entypo name="pie-chart" size={20} color="#000" />
             </TouchableOpacity>
             <View style={styles._model_btn_mian}>
-              <TouchableOpacity style={styles._model_cancel_btn} onPress={() => setModalVisible(!modalVisible)}>
+              <TouchableOpacity
+                style={styles._model_cancel_btn}
+                onPress={() => setModalVisible(!modalVisible)}>
                 <Text style={styles._model_cancel_btn_text}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles._model_confirm_btn} onPress={() => setModalVisible(!modalVisible)}>
+              <TouchableOpacity
+                style={styles._model_confirm_btn}
+                onPress={() => setModalVisible(!modalVisible)}>
                 <Text style={styles._model_confirm_btn_text}>Confirm</Text>
               </TouchableOpacity>
             </View>
@@ -638,7 +679,7 @@ let styles = StyleSheet.create({
   },
   _goals_image: {
     height: 174,
-    marginTop: 20
+    marginTop: 20,
   },
   _goals_data_main: {
     padding: 10,
@@ -658,7 +699,7 @@ let styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 35
+    marginTop: 35,
   },
   _goals_btn: {
     backgroundColor: '#fff',
@@ -674,166 +715,188 @@ let styles = StyleSheet.create({
     fontSize: 15,
   },
   _in_out: {
-    color: "#000",
-    fontSize: 16
+    color: '#000',
+    fontSize: 16,
   },
   _expenses_data_main: {
-    marginTop: 30
+    marginTop: 30,
   },
   _expenses_data_icons_main: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   _in_out_main: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   _expenses_card_main: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
   _expenses_card_icon_main: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   _expenses_card_name_main: {
-    backgroundColor: "#eef2f8",
+    backgroundColor: '#eef2f8',
     width: 40,
     height: 40,
     borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 10
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 10,
   },
   _expenses_card_name: {
-    color: "#005cee",
-    fontWeight: "bold",
-    fontSize: 16
+    color: '#005cee',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   _expenses_card_heading: {
-    color: "#000",
+    color: '#000',
     fontSize: 14,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   _expenses_card_date: {
-    color: "gray",
-    fontSize: 13
+    color: 'gray',
+    fontSize: 13,
   },
   __price: {
-    fontSize: 16
+    fontSize: 16,
   },
   _payment_btn_main: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 30
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 30,
   },
   _payment_btn: {
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 100,
     marginRight: 10,
-    marginTop: 10
+    marginTop: 10,
   },
-  _summery_show_mian: {
-  },
+  _summery_show_mian: {},
   _summery_heading: {
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 20
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   _summery_date: {
-    color: "gray",
+    color: 'gray',
     fontSize: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalView: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     paddingHorizontal: 15,
-    width: "70%",
+    width: '70%',
     elevation: 3,
-    paddingVertical: 10
-
+    paddingVertical: 10,
   },
   _model_heading: {
-    color: "#000",
-    fontWeight: "bold",
-    textAlign: "center",
+    color: '#000',
+    fontWeight: 'bold',
+    textAlign: 'center',
     fontSize: 16,
-    marginBottom: 10
+    marginBottom: 10,
   },
   _chart_title: {
-    color: "#000",
+    color: '#000',
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginRight: 10,
   },
   _select_chart_btn: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 7,
   },
   _radio_btn: {
     borderWidth: 1,
-    borderColor: "#3e83f2",
+    borderColor: '#3e83f2',
     width: 25,
     height: 25,
     borderRadius: 25 / 2,
     marginRight: 10,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   _selected_radio_btn: {
-    backgroundColor: "#3e83f2",
+    backgroundColor: '#3e83f2',
     width: 15,
     height: 15,
-    borderRadius: 15 / 2
+    borderRadius: 15 / 2,
   },
   _model_btn_mian: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
   _model_cancel_btn: {
-    backgroundColor: "#eef2f8",
+    backgroundColor: '#eef2f8',
     borderRadius: 100,
-    width: "45%",
+    width: '45%',
     paddingVertical: 5,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   _model_cancel_btn_text: {
-    color: "#000",
-    fontSize: 14
+    color: '#000',
+    fontSize: 14,
   },
   _model_confirm_btn: {
-    backgroundColor: "#005cee",
+    backgroundColor: '#005cee',
     borderRadius: 100,
-    width: "45%",
+    width: '45%',
     paddingVertical: 5,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   _model_confirm_btn_text: {
-    color: "#fff",
-    fontSize: 14
+    color: '#fff',
+    fontSize: 14,
   },
   _pie_setting: {
     marginTop: 30,
-    alignSelf: "flex-end"
+    alignSelf: 'flex-end',
   },
   _income_data_main: {
+    marginLeft: 20,
+  },
+  _income_main: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
     marginTop: 30,
-    backgroundColor: "red"
+  },
+  _toal_earning: {
+    color: 'gray',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  _total_earning_price_main: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  _total_earning_price: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  _Show_progress:{
+    color:"#000",
+    fontWeight:"bold",
+    fontSize:20
   }
 });
 export default SmartFi;
