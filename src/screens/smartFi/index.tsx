@@ -172,7 +172,27 @@ let SmartFi = () => {
           </View>
         )}
         {activeTab === 'investment' && (
-          <Text style={styles._heading}>Start Target Goals</Text>
+          <>
+            <Text style={styles._heading}>Start Target Goals</Text>
+            <ImageBackground
+              source={require('./../../images/goals.png')}
+              style={styles._goals_image}>
+              <View style={styles._goals_data_main}>
+                <Text style={styles._goals_heading}>Create a goal!</Text>
+                <Text style={styles._goals_des}>
+                  Stay motivated and{'\n'}meet you futured{'\n'}goals
+                </Text>
+                <View style={styles._goals_btn_main}>
+                  <TouchableOpacity style={styles._goals_btn}>
+                    <Text style={styles._goals_btn_text}>View Savings</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles._goals_btn}>
+                    <Text style={styles._goals_btn_text}>Create Target</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
+          </>
         )}
         {activeTab !== 'expenses' && (
           <>
@@ -435,6 +455,41 @@ let styles = StyleSheet.create({
     color: 'gray',
     fontSize: 12,
     paddingVertical: 3,
+  },
+  _goals_image: {
+    height: 174,
+  },
+  _goals_data_main: {
+    padding: 10,
+  },
+  _goals_heading: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  _goals_des: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  _goals_btn_main: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  _goals_btn: {
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    paddingVertical: 5,
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  _goals_btn_text: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 15,
   },
 });
 export default SmartFi;
